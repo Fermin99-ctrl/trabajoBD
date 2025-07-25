@@ -8,11 +8,10 @@ import psycopg2;
 try:
     conexion = psycopg2.connect(
         database='TrabajoSemestralBD',
-        user='postgres',
-        password='fire323',
+       
+,
         host='localhost',
-        port='5432'
-    )
+        port='
     
     # Crear cursor
     cursor = conexion.cursor()
