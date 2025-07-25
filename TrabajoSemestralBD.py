@@ -3,6 +3,11 @@ import psycopg2;
 bucle = True
 cursor = None
 conexion = None
+DEBUG = True
+
+def print_if_debug(s):
+    if DEBUG:
+        print(s)
 
 def menu_opciones(opcion):
     if opcion == 1:
@@ -168,18 +173,32 @@ try:
         codigo_especialidad INT PRIMARY KEY REFERENCES especialidad(codigo_especialidad)
     );
     """
+
+    print_if_debug("Curso")
     cursor.execute(CURSO)
+    print_if_debug("Alumno")
     cursor.execute(ALUMNO)
+    print_if_debug("Apoderado")
     cursor.execute(APODERADO)
+    print_if_debug("Representa")
     cursor.execute(REPRESENTA)
+    print_if_debug("Media")
     cursor.execute(MEDIA)
+    print_if_debug("Basica")
     cursor.execute(BASICA)
+    print_if_debug("Profesor")
     cursor.execute(PROFESOR)
+    print_if_debug("Extraprogramatica")
     cursor.execute(EXTRAPROGRAMATICA)
+    print_if_debug("Participa")
     cursor.execute(PARTICIPA)
+    print_if_debug("Es Jefe")
     cursor.execute(ES_JEFE)
+    print_if_debug("Es Asistente")
     cursor.execute(ES_ASISTENTE)
+    print_if_debug("Especialidad")
     cursor.execute(ESPECIALIDAD)
+    print_if_debug("Tiene")
     cursor.execute(TIENE)
 
     # [C] Crear 4 alumno y 4 apoderado
