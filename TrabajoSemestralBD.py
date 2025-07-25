@@ -69,7 +69,7 @@ try:
         fecha_nacimiento DATE,
         direccion VARCHAR(100),
         ciudad VARCHAR(100),
-        codigo_curso INT FOREIGN KEY REFERENCES curso(codigo_curso)
+        codigo_curso INT REFERENCES curso(codigo_curso)
     );
     """
     APODERADO = """
@@ -85,8 +85,8 @@ try:
 
     REPRESENTA = """
     CREATE TABLE IF NOT EXISTS REPRESENTA (
-        Rut_Alumno VARCHAR(100) PRIMARY KEY REFERENCES alumno(Rut),
-        Rut_apoderado VARCHAR(100) PRIMARY KEY REFERENCES apoderado(Rut),
+        Rut_Alumno VARCHAR(100)  REFERENCES alumno(Rut),
+        Rut_apoderado VARCHAR(100) REFERENCES apoderado(Rut),
         fecha_inicio DATE,
         fecha_termino DATE
     );
@@ -136,7 +136,7 @@ try:
 
     PARTICIPA = """
     CREATE TABLE IF NOT EXISTS PARTICIPA (
-        Rut_Alumno INT PRIMARY KEY REFERENCES alumno(Rut),
+        Rut_Alumno VARCHAR(100)  REFERENCES alumno(Rut),
         Codigo INT PRIMARY KEY REFERENCES extraprogramatica(codigo)
     );
     """
@@ -168,11 +168,10 @@ try:
         codigo_especialidad INT PRIMARY KEY REFERENCES especialidad(codigo_especialidad)
     );
     """
-
+    cursor.execute(CURSO)
     cursor.execute(ALUMNO)
     cursor.execute(APODERADO)
     cursor.execute(REPRESENTA)
-    cursor.execute(CURSO)
     cursor.execute(MEDIA)
     cursor.execute(BASICA)
     cursor.execute(PROFESOR)
