@@ -1,17 +1,60 @@
 import psycopg2;
 
+bucle = True
+cursor = None
+conexion = None
 
+def menu_opciones(opcion):
+    if opcion == 1:
+        nombres = input("Ingrese los nombres del alumno\n: ")
+        apellido_paterno = input("Ingrese el apellido parterno del alumno\n ")
+        apellido_materno = input("Ingrese el apellido materno del alumno\n: ")
+        fecha_nacimiento = input("Ingrese la fehca de nacimiento del alumno ejemplo 2004-05-06 ")
+        direccion = input("Ingrese la direccion: ")
+        ciudad = input("Ingrese la ciudad del alumno: ")
+        codigo_curso = input("Ingrese el codigo del curso : ")
+        cursor.execute("INSERT INTO usuarios (nombres, edad) VALUES ($s, $s, $s, $s, $s, $s, %s)", (nombres,apellido_paterno,apellido_materno,fecha_nacimiento,direccion,ciudad,codigo_curso))
 
+        # 4. Confirmar la inserción
+        conexion.commit()
 
+        # 5. Cerrar la conexión
+        conexion.close()
 
+        print("Datos insertados correctamente.")
+        return True
+    elif opcion == 2:
+        print("Puede modificar los siguientes datos rut, Nombres, apellido_paterno, apellido_materno, fecha_nacimiento, direccion, ciudad, codigo_curso")
+        id=input("para modificar el alumno debe ingresar el rut de alumno al cual quiere modificar sus componentes")
+        cursor.execute("UPDATE alumno SET direccion=%s WHERE rut=%s", (id))
+        print(alumno)
+        conexion.commit()
+        
+        cursor.execute("SELECT * FROM alumno;")
+        lista_alumno = cursor.fetchall()
+        print("\nAlumno DE LA TABLA 'ALUMNO' MODIFICADA: ")
+        for alumno in lista_alumno:
+            print(alumno)
+        return True
+    elif opcion == 3:
+        print("Has elegido la opción 3")
+        return True
+    elif opcion >= 4:
+        return False            
+    else:
+        print("Opción inválida vuelva a intentarlo")
+        return True
+        # Ejemplo de uso
+        # menu_opciones (2)
 
 try:
     conexion = psycopg2.connect(
         database='TrabajoSemestralBD',
-       
-,
+        user='postgres',
+        password='fire323',
         host='localhost',
-        port='
+        port='5432'
+    )
     
     # Crear cursor
     cursor = conexion.cursor()
@@ -180,67 +223,22 @@ try:
     conexion.commit()
     print("Registros insertados correctamente")
 
-
-
-    print("Bienvenido le sirvo un cafecito ")
-    print("debe elegir entre matarse o elegir una opcion:\n ")
-    print("1.Ingresar datos a la tabla alumno\n ")
-    print("2.modificar la tabla alumno\n")
-    print("ssss")
-    print("salir\n")
-    opcion=input()
-    while True:
-       def menu_opciones(opcion):
-            if opcion == 1:
-              nombres = input("Ingrese los nombres del alumno\n: ")
-              apellido_paterno = input("Ingrese el apellido parterno del alumno\n ")
-              apellido_materno = input("Ingrese el apellido materno del alumno\n: ")
-              fecha_nacimiento = input("Ingrese la fehca de nacimiento del alumno ejemplo 2004-05-06 ")
-              direccion = input("Ingrese la direccion: ")
-              ciudad = input("Ingrese la ciudad del alumno: ")
-              codigo_curso = input("Ingrese el codigo del curso : ")
-              cursor.execute("INSERT INTO usuarios (nombres, edad) VALUES ($s, $s, $s, $s, $s, $s, %s)", (nombres,apellido_paterno,apellido_materno,fecha_nacimiento,direccion,ciudad,codigo_curso))
-
-              # 4. Confirmar la inserción
-              conexion.commit()
-
-              # 5. Cerrar la conexión
-              conexion.close()
-
-              print("Datos insertados correctamente.")
-            elif opcion == 2:
-             print("Puede modificar los siguientes datos rut, Nombres, apellido_paterno, apellido_materno, fecha_nacimiento, direccion, ciudad, codigo_curso")
-             id=input("para modificar el alumno debe ingresar el rut de alumno al cual quiere modificar sus componentes")
-             cursor.execute("UPDATE alumno SET direccion=%s WHERE rut=%s", (id))
-             print(alumno)
-             conexion.commit()
-            
-             cursor.execute("SELECT * FROM alumno;")
-             lista_alumno = cursor.fetchall()
-             print("\nAlumno DE LA TABLA 'ALUMNO' MODIFICADA: ")
-             for alumno in lista_alumno:
-                print(alumno)
-
-            elif opcion == 3:
-             print("Has elegido la opción 3")
-            else:
-             print("Opción inválida vuelva a intentarlo")
-            if opcion >= 4:
-             break
-             # Ejemplo de uso
-             menu_opciones (2)
-
-
-
+    while bucle:
+        print("Bienvenido le sirvo un cafecito ")
+        print("debe elegir entre matarse o elegir una opcion:\n ")
+        print("1.Ingresar datos a la tabla alumno\n ")
+        print("2.modificar la tabla alumno\n")
+        print("ssss")
+        print("salir\n")
+        opcion=input()
+        bucle =menu_opciones(opcion)
 
 except psycopg2.Error as error:
     print("Error al conectar a la base de datos: ", error)
-
-    
-    
 finally:
     #Cerrar cursor y conexion
-   if cursor:
+    if cursor:
         cursor.close()
-   if conexion:
+    if conexion:
         conexion.close()
+
